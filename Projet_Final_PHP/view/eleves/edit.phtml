@@ -1,0 +1,55 @@
+<!-- on inclut le header de la page avec la fonction "include" -->
+<?php include('C:\Users\Panda\Desktop\Projet_Final_PHP\view\templates\header.phtml') ?>
+
+<!-- Si la variable $results existe, on affiche le contenu entre les accolades -->
+<?php if ($results) { ?>
+    <section>
+        <h2 class="display-4">Mettre à jour ou supprimer des données</h2>
+        <?php foreach ($results as $result) {
+            $id = $result['ID'];
+            $eleve = $result['prenom'];
+            $nom = $result['nom'];
+            $age = $result['age'];
+            $email = $result['email'];
+        ?>
+            <!--             On boucle sur la variable $results avec une boucle foreach, pour afficher le formulaire d'édition et de suppression de chaque résultat
+            On stocke les différentes valeurs dans des variables $id, $eleve, $nom, $age, et $email. -->
+
+
+            <form class="update" action="." method="POST">
+                <div class="form-group">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="id" value="<?= $id ?>">
+                    <label for="eleve-<?= $id ?>">Prenom de l'eleve :</label>
+                    <input class="form-control" type="text" id="eleve-<?= $id ?>" name="eleve" value="<?= $eleve ?>" required>
+                    <label for="nom-<?= $id ?>">Nom de l'eleve :</label>
+                    <input class="form-control" type="text" id="nom-<?= $id ?>" name="nom" value="<?= $nom ?>" required>
+                    <label for="age-<?= $id ?>">Age de l'eleve :</label>
+                    <input class="form-control" type="text" id="age-<?= $id ?>" name="age" value="<?= $age ?>" required>
+                    <label for="email-<?= $id ?>">Email de l'eleve :</label>
+                    <input class="form-control" type="text" id="email-<?= $id ?>" name="email" value="<?= $email ?>" required>
+                    <button class="btn btn-primary">Mettre à jour</button>
+                </div>
+            </form>
+            <!--  On affiche un formulaire pour mettre à jour les informations d'un élève
+            Les valeurs actuelles sont pré-remplies dans les champs de formulaire, et les nouvelles valeurs sont envoyées en méthode POST -->
+
+            <form class="delete" action="." method="POST">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" value="<?= $id ?>">
+                <button class="btn btn-danger">Supprimer</button>
+            </form>
+            <!--             On affiche un autre formulaire pour supprimer l'élève sélectionné
+            Les données sont envoyées en méthode POST -->
+
+        <?php } ?>
+    </section>
+<?php } else { ?>
+    <p>Désolé, il n'y a pas de résultats</p>
+<?php } ?>
+<!-- On ferme la boucle foreach et on affiche un message d'erreur si la variable $results est vide -->
+
+<!-- On inclut le fichier "status" -->
+<?php include('C:\Users\Panda\Desktop\Projet_Final_PHP\view\eleves\status.php') ?>
+<p><a href=".">Retourner au formulaire d'eleve.</a></p>
+<?php include('C:\Users\Panda\Desktop\Projet_Final_PHP\view\templates\footer.phtml') ?>

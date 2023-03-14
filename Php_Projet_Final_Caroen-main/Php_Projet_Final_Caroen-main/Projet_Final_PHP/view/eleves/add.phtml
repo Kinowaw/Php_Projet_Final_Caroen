@@ -1,0 +1,45 @@
+<!-- Cette ligne inclut le fichier "header.phtml" situé à l'emplacement spécifié dans l'URL -->
+<?php include('/view/templates/header.phtml') ?>
+
+
+<!-- Cette partie crée un formulaire avec une méthode GET qui sera utilisé pour récupérer les informations de l'utilisateur
+Le formulaire a un champ de texte pour renseigner le prénom de l'élève que l'on souhaite rechercher
+Le bouton d'envoi va envoyer les informations au serveur qui vas déterminer si il y a une concordance -->
+<section>
+    <h2 class="display-4">Sélectionner une donnée</h2>
+    <form action="." method="GET">
+        <div class="form-group">
+            <input type="hidden" name="action" value="select">
+            <label for="eleve">Veuillez renseigner le prénom de l'élève :</label>
+            <input class="form-control" type="text" id="eleve" name="eleve" required>
+            <button class="btn btn-primary">Envoyer</button>
+        </div>
+    </form>
+</section>
+
+<!-- Cette partie crée un autre formulaire qui sera utilisé pour ajouter une nouvelle entrée dans la base de données
+Le formulaire a plusieurs champs pour les informations de l'élève, tels que son prénom, nom, âge et email
+Les informations seront envoyées au serveur en utilisant la méthode POST. -->
+<section>
+    <h2 class="display-4">Insérer ou créer une donnée</h2>
+    <form action=" ." method="POST">
+        <div class="form-group">
+            <input type="hidden" name="action" value="insert">
+            <label for="neweleve">Prenom de l'eleve:</label>
+            <input class="form-control" type="text" id="neweleve" name="eleve" required>
+            <label for="nom">Nom de l'eleve :</label>
+            <input class="form-control" type="text" id="nom" name="nom" required>
+            <label for="age">Age de l'eleve:</label>
+            <input class="form-control" type="text" id="age" name="age" maxlength="3" required>
+            <label for="email">Email de l'eleve:</label>
+            <input class="form-control" type="text" id="email" name="email" required>
+            <button class="btn btn-primary">Envoyer</button>
+        </div>
+    </form>
+</section>
+
+<!-- //Cette ligne inclut le fichier "status.php" qui est utilisé pour afficher le statut des opérations effectuées sur la base de données-->
+<?php include('C:\Users\Panda\Desktop\Projet_Final_PHP\view\eleves\status.php') ?>
+
+<!-- Cette ligne inclut le fichier "footer.phtml" situé à l'emplacement spécifié dans l'URL-->
+<?php include('C:\Users\Panda\Desktop\Projet_Final_PHP\view\templates\footer.phtml') ?>

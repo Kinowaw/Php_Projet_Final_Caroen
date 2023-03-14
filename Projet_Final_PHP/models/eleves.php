@@ -1,96 +1,57 @@
 <?php
 
-function insert_eleve($neweleve, $nom, $age, $newemail)
+class Eleves
 {
-    global $db;
-    //Utilisation de "global" pour accéder à la variable $db, qui est une connexion à une base de donée
-    $count = 0;
-    //On initialise la variable $count à 0
-    $query = "INSERT INTO eleve
- 
-                        (prenom,nom,age,email) 
-                    VALUES 
-                        (:neweleve, :nom, :age, :newemail)";
-    //La variable $query contient une chaîne de caractère définissant une instruction pour ajouter un nouvel élève
-    //On utilise les valeurs (:neweleve, :nom, :age, :newemail) pour remplir les colonnes (prenom,nom,age,email)
+    private $database;
+    private $bdd;
 
-    $statement = $db->prepare($query);
-    //Préparation de la requète à éxécutée, on remplace les parties variables par des paramètres
+    public function __construct()
+    {
+        $this->database = new Database();
+        $this->bdd = $this->database->getBdd();
+    }
 
-    $statement->bindValue(':neweleve', $neweleve);
-    $statement->bindValue(':nom', $nom);
-    $statement->bindValue(':age', $age);
-    $statement->bindValue(':newemail', $newemail);
-    //On définis les paramètres avec "bindValue"
+    //register user
+    public function creerEleve($prenom, $nom, $email, $age)
+    {
+        $query = $this->bdd->prepare("INSERT INTO eleve(prenom,nom,email,age) VALUES (?,?,?,?)");
+        try {
+            $creerEleve = $query->execute([$prenom, $nom, $email, $age]);
+        } catch (Exception $e) {
+            print_r($e);
+        }
+        return $creerEleve;
+    }
 
-    if ($statement->execute()) {
-        $count = $statement->rowCount();
-    };
-    //La variable $count est mise à jour avec le nombre de lignes affectées par la requête (dans notre cas, il n'y en a qu'une)
+    public function deleteEleve($id)
+    {
+        $query = $this->bdd->prepare("DELETE from eleve WHERE prenom = ?");
+        try {
+            $query->execute([$id]);
+            return $query;
+        } catch (Exception $e) {
+            print_r($e);
+        }
+    }
 
-    return $count;
-    //On renvoie la valeur de $count
-}
-//
+    public function getEleve($prenom)
+    {
+        $query = $this->bdd->prepare("SELECT * FROM eleve WHERE prenom = $prenom");
+        try {
+            $getEleve = $query->execute([$prenom]);
+        } catch (Exception $e) {
+            print_r($e);
+        }
+        $statement = $this->bdd->prepare($query);
+        $results = $statement->fetchAll();
+        return $results;
+    }
 
-function select_eleve_by_name($eleve)
-{
-    global $db;
-    $query = 'SELECT * FROM eleve
- 
-                WHERE prenom = :eleve
-             
-                ORDER BY email DESC';
-    //Uitlisation d'une requête SQL pour sélectionner toutes les colonnes de la table eleve où le prénom est égal à la valeur de $eleve
-    $statement = $db->prepare($query);
-    //Préparation de la requète à éxécutée, on remplace les parties variables par des paramètres
-    $statement->bindValue(':eleve', $eleve);
-    $statement->execute();
-    //Execution de la requête
-    $results = $statement->fetchAll();
-    //Récupération du résultat de la requête en utilisant la méthode "fetchAll"
-    return $results;
-}
-
-function update_eleve($id, $eleve, $nom, $age, $email)
-{
-    global $db;
-    $count = 0;
-    //On initialise $count à 0
-    $query = 'UPDATE eleve
- 
-                SET prenom = :eleve
-            , nom = :nom, age = :age, 
-                    email = :email WHERE ID = :id';
-    //On utilise une requeête SQL pour mettre à jour l'enregistrement de l'eleve en utilisant les paramètres fournis
-    $statement = $db->prepare($query);
-    //Préparation de la requète à éxécutée, on remplace les parties variables par des paramètres
-    $statement->bindValue(':id', $id);
-    $statement->bindValue(':eleve', $eleve);
-    $statement->bindValue(':nom', $nom);
-    $statement->bindValue(':age', $age);
-    $statement->bindValue(':email', $email);
-    if ($statement->execute()) {
-        $count = $statement->rowCount();
-    };
-    //On exécute ensuite la requête en appelant la méthode "execute" de l'objet $statement
-    //La fonction récupère le nombre de ligne puis le stocke dans sa variable $count
-    return $count;
-    //On retounre la valeur de $count
-}
-
-function delete_eleve($id)
-{
-    global $db;
-    $count = 0;
-    $query = 'DELETE FROM eleve
- 
-                WHERE ID = :id';
-    //Utilisation d'une requête SQL pour supprimer les données relative à un eleve définis par son id
-    $statement = $db->prepare($query);
-    $statement->bindValue(':id', $id);
-    if ($statement->execute()) {
-        $count = $statement->rowCount();
-    };
-    return $count;
+    public function fetchByPrenom($prenom)
+    {
+        $query = $this->bdd->prepare("SELECT * FROM eleve WHERE prenom = ?");
+        $query->execute([$prenom]);
+        $eleve = $query->fetch();
+        return $eleve;
+    }
 }

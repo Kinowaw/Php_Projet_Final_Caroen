@@ -7,12 +7,12 @@ Le formulaire a un champ de texte pour renseigner le prénom de l'élève que l'
 Le bouton d'envoi va envoyer les informations au serveur qui vas déterminer si il y a une concordance -->
 <section>
     <h2 class="display-4">Sélectionner une donnée</h2>
-    <form action="." method="GET">
+    <form action="index.php?action=edit" method="GET">
         <div class="form-group">
-            <input type="hidden" name="action" value="select">
+            <input type="hidden" name="prenom" value="select">
             <label for="eleve">Veuillez renseigner le prénom de l'élève :</label>
             <input class="form-control" type="text" id="eleve" name="eleve" required>
-            <button class="btn btn-primary">Envoyer</button>
+            <button class="btn btn-primary" href="C:\Users\Panda\Desktop\Projet_Final_PHP\view\eleves\edit.phtml">Envoyer</button>
         </div>
     </form>
 </section>
@@ -22,18 +22,18 @@ Le formulaire a plusieurs champs pour les informations de l'élève, tels que so
 Les informations seront envoyées au serveur en utilisant la méthode POST. -->
 <section>
     <h2 class="display-4">Insérer ou créer une donnée</h2>
-    <form action=" ." method="POST">
+    <form action="index.php?action=create" method="POST">
         <div class="form-group">
-            <input type="hidden" name="action" value="insert">
+            <input type="hidden" name="prenom" value="insert">
             <label for="neweleve">Prenom de l'eleve:</label>
-            <input class="form-control" type="text" id="neweleve" name="eleve" required>
+            <input class="form-control" type="text" id="nom" name="nom" required>
             <label for="nom">Nom de l'eleve :</label>
             <input class="form-control" type="text" id="nom" name="nom" required>
             <label for="age">Age de l'eleve:</label>
             <input class="form-control" type="text" id="age" name="age" maxlength="3" required>
             <label for="email">Email de l'eleve:</label>
             <input class="form-control" type="text" id="email" name="email" required>
-            <button class="btn btn-primary">Envoyer</button>
+            <button type="submit" class="btn btn-primary">Envoyer</button>
         </div>
     </form>
 </section>
